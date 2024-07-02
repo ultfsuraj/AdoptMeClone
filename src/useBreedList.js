@@ -1,36 +1,35 @@
-import {useState, useEffect} from 'react'
+import { useState, useEffect } from "react";
 
 // serve from cache if animal is switched back to previous one
-const localCache = {}
+const localCache = {};
 
-export default function useBreedList(animal){
-    const [breedList, setBreedList] = useState([])
-    const [status, setStatus] = useState('unloaded')
-    
-    useEffect(()=>{
-        if(!animal){
-            setBreedList([])
-        }else if(localCache[animal]){
-            setBreedList(localCache[animal])
-        }
-        else{
-            requestBreedList()
-        }
+export default function useBreedList(animal) {
+  const [breedList, setBreedList] = useState([]);
+  const [status, setStatus] = useState("unloaded");
 
-        async function requestBreedList(){
-            setBreedList([])
-            setStatus('loading')
+  useEffect(() => {
+    if (!animal) {
+      setBreedList([]);
+    } else if (localCache[animal]) {
+      setBreedList(localCache[animal]);
+    } else {
+      requestBreedList();
+    }
 
-            const res = await fetch(
-                `http://pets-v2.dev-apis.com/breeds?animal=${animal}`
-            )
+    async function requestBreedList() {
+      setBreedList([]);
+      setStatus("loading");
 
-            const json = await res.json()
-            localCache[animal] = json.breeds || []
-            setBreedList(localCache[animal])
-            setStatus('loaded')
-        }
-    }, [animal])
+      const res = await fetch(
+        `http://pets-v2.dev-apis.com/breeds?animal=${animal}`
+      );
 
-    return [breedList,status]
+      const json = await res.json();
+      localCache[animal] = json.breeds || [];
+      setBreedList(localCache[animal]);
+      setStatus("loaded");
+    }
+  }, [animal]);
+
+  return [breedList, status];
 }
