@@ -1,48 +1,49 @@
-import { useState, useEffect } from "react";
+import { useState} from "react";
+import {useQuery} from '@tanstack/react-query'
 import useBreedList from "./useBreedList";
 import Results from "./Results";
+import fetchSearch from "./fetchSearch";
 
 const ANIMALS = ["bird", "cat", "dog", "rabbit", "reptile"];
 
 const SearchParams = () => {
-  const [location, setLocation] = useState("");
-  const [animal, setAnimal] = useState("");
-  const [breed, setBreed] = useState("");
-  const [pets, setPets] = useState([]);
+  const [animal, setAnimal] = useState(""); 
   const [breeds] = useBreedList(animal);
+  const [requestParams, setRequestParams] = useState({
+    location: "",
+    animal: "",
+    breed: "",
+  })
 
-  useEffect(() => {
-    requestPets();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  async function requestPets() {
-    const res = await fetch(
-      `http://pets-v2.dev-apis.com/pets?animal=${animal}&location=${location}&breed=${breed}`
-    );
-    const json = await res.json();
-    setPets(json.pets);
-  }
+  const results = useQuery(['search', requestParams], fetchSearch)
+  const pets = results?.data?.pets ?? [];
 
   return (
     <div className="search-params">
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          requestPets();
+          const formData = new FormData(e.target)
+          const data = {
+            animal: formData.get('animal') ?? "",
+            breed: formData.get('breed') ?? "",
+            location: formData.get('location') ?? "",
+          }
+          setRequestParams(data)
         }}
       >
         <label htmlFor="location">
           Location
           <input
+            name="location"
             id="location"
-            value={location}
             placeholder="location"
-            onChange={(e) => setLocation(e.target.value)}
           />
         </label>
         <label htmlFor="animal">
           Animal
           <select
+          name="animal"
             id="animal"
             value={animal}
             placeholder="animal"
@@ -57,11 +58,11 @@ const SearchParams = () => {
         <label htmlFor="breed">
           Breed
           <select
+           name="breed"
             id="breed"
             disabled={breeds.length === 0}
-            value={breed}
+         
             placeholder="breed"
-            onChange={(e) => setBreed(e.target.value)}
           >
             {breeds.map((breed) => (
               <option key={breed}>{breed}</option>

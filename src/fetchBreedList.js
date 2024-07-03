@@ -12,7 +12,7 @@ const fetchBreedList = async ({ queryKey }) => {
     throw new Error(`breeds/${animal} fetch not ok`);
   }
 
-  return apiRes.json;
+  return apiRes.json();
 };
 
 export default fetchBreedList;
