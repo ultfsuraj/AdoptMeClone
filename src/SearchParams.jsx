@@ -1,5 +1,5 @@
-import { useState} from "react";
-import {useQuery} from '@tanstack/react-query'
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import useBreedList from "./useBreedList";
 import Results from "./Results";
 import fetchSearch from "./fetchSearch";
@@ -7,15 +7,15 @@ import fetchSearch from "./fetchSearch";
 const ANIMALS = ["bird", "cat", "dog", "rabbit", "reptile"];
 
 const SearchParams = () => {
-  const [animal, setAnimal] = useState(""); 
+  const [animal, setAnimal] = useState("");
   const [breeds] = useBreedList(animal);
   const [requestParams, setRequestParams] = useState({
     location: "",
     animal: "",
     breed: "",
-  })
+  });
 
-  const results = useQuery(['search', requestParams], fetchSearch)
+  const results = useQuery(["search", requestParams], fetchSearch);
   const pets = results?.data?.pets ?? [];
 
   return (
@@ -23,27 +23,23 @@ const SearchParams = () => {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          const formData = new FormData(e.target)
+          const formData = new FormData(e.target);
           const data = {
-            animal: formData.get('animal') ?? "",
-            breed: formData.get('breed') ?? "",
-            location: formData.get('location') ?? "",
-          }
-          setRequestParams(data)
+            animal: formData.get("animal") ?? "",
+            breed: formData.get("breed") ?? "",
+            location: formData.get("location") ?? "",
+          };
+          setRequestParams(data);
         }}
       >
         <label htmlFor="location">
           Location
-          <input
-            name="location"
-            id="location"
-            placeholder="location"
-          />
+          <input name="location" id="location" placeholder="location" />
         </label>
         <label htmlFor="animal">
           Animal
           <select
-          name="animal"
+            name="animal"
             id="animal"
             value={animal}
             placeholder="animal"
@@ -58,10 +54,9 @@ const SearchParams = () => {
         <label htmlFor="breed">
           Breed
           <select
-           name="breed"
+            name="breed"
             id="breed"
             disabled={breeds.length === 0}
-         
             placeholder="breed"
           >
             {breeds.map((breed) => (
