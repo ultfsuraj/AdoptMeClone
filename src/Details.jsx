@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import fetchPet from "./fetchPet";
 import Carousel from "./Carousel";
+import ErrorBoundary from "./ErrorBoundary";
 
 const Details = () => {
   const { id } = useParams();
@@ -25,8 +26,11 @@ const Details = () => {
   const pet = results.data.pets[0];
 
   return (
+    // temptation to wrap ErrorBoundary here, but it only catches errors of wrapped components.
+    // it won't catch any error happenning in useQuery above
+
     <div className="details">
-        <Carousel images={pet.images}></Carousel>
+      <Carousel images={pet.images}></Carousel>
       <div>
         <h1>{pet.name}</h1>
         <h2>
@@ -39,4 +43,14 @@ const Details = () => {
   );
 };
 
-export default Details;
+// export default <ErrorBoundary><Details/></ErrorBoundary>; if i do this props passed to Details are killed
+
+function DetailsErrorBoundary(props) {
+  return (
+    <ErrorBoundary>
+      <Details {...props} />
+    </ErrorBoundary>
+  );
+}
+
+export default DetailsErrorBoundary;
