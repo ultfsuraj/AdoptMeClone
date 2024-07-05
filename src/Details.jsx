@@ -1,12 +1,16 @@
-import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useState, useContext } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import fetchPet from "./fetchPet";
 import Carousel from "./Carousel";
 import ErrorBoundary from "./ErrorBoundary";
 import Modal from "./Modal";
+import AdoptedPetContext from "./AdoptedPetContext";
 
 const Details = () => {
+  const navigate = useNavigate();
+  // eslint-disable-next-line no-unused-vars
+  const [_, setAdoptedPet] = useContext(AdoptedPetContext);
   const [showModal, setShowModal] = useState(false);
   const { id } = useParams();
   const results = useQuery(["details", id], fetchPet);
@@ -50,7 +54,14 @@ const Details = () => {
                 // onClick={(e)=>console.log(e)} if we try to get yes or no is clicked from here,
                 // it may not work , it may show a fake event, so check for e, e.target always
               >
-                <button>Yes</button>
+                <button
+                  onClick={() => {
+                    setAdoptedPet(pet);
+                    navigate("/");
+                  }}
+                >
+                  Yes
+                </button>
                 <button onClick={() => setShowModal(false)}>No</button>
               </div>
             </div>
