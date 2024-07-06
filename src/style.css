@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@layer base {
+    body {
+        font-family: "Roboto"
+    }
+}
+
+@layer components {
+    .search-input{
+        @apply w-60 mb-5 block;
+        /* width: 60%  ye you can do this, but context switching will reduce productivity, use tailwind of do your own css don't mix*/
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+}
+
+@layer utilities{
+    .grayed-out-disabled{
+        @apply disabled:opacity-50
+    }
+}
