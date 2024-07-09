@@ -8,14 +8,14 @@ import AdoptedPetContext from "./AdoptedPetContext";
 const ANIMALS = ["bird", "cat", "dog", "rabbit", "reptile"];
 
 const SearchParams = () => {
-  const [adoptedPet] = useContext(AdoptedPetContext);
-  const [animal, setAnimal] = useState("");
-  const [breeds] = useBreedList(animal);
   const [requestParams, setRequestParams] = useState({
     location: "",
     animal: "",
     breed: "",
   });
+  const [adoptedPet] = useContext(AdoptedPetContext);
+  const [animal, setAnimal] = useState("");
+  const [breeds] = useBreedList(animal);
 
   const results = useQuery(["search", requestParams], fetchSearch);
   const pets = results?.data?.pets ?? [];

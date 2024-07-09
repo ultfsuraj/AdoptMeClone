@@ -15,7 +15,7 @@ export default function render(url, opts) {
 
 // this approach , we can just have VITE build ServerApp.jsx
 // and import what is built by VITE to Node
-// So we don't have to build our entire node server, we just have to build server app 
-// which then interfaces to our jsx. bcz node can't read jsx. 
-// you can also use babel-node which gets janky pretty quickly 
+// So we don't have to build our entire node server, we just have to build server app
+// which then interfaces to our jsx. bcz node can't read jsx.
+// you can also use babel-node which gets janky pretty quickly
 // to enable "import" in node, add type: module in package.json
