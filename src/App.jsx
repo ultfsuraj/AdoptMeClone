@@ -37,6 +37,4 @@ const App = () => {
   );
 };
 
-const container = document.getElementById("root");
-const root = createRoot(container); // react-dom handles rendering
-root.render(<App />);
+export default App;
