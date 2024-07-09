@@ -9,5 +9,6 @@ hydrateRoot(
   document.getElementById("root"),
   <BrowserRouter>
     <App />
-  </BrowserRouter>
+  </BrowserRouter>,
+  document.getElementById("root")
 );
