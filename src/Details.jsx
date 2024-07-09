@@ -6,7 +6,7 @@ import Carousel from "./Carousel";
 import ErrorBoundary from "./ErrorBoundary";
 import AdoptedPetContext from "./AdoptedPetContext";
 
-const Modal = lazy(()=>import('./Modal'))
+const Modal = lazy(() => import("./Modal"));
 
 const Details = () => {
   const navigate = useNavigate();
